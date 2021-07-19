@@ -1,10 +1,11 @@
-
-
+import { Card } from "./components/Card";
+import { GlobalStyle } from "./styles/golbal";
 
 export function App() {
   return (
-    <div className="App">
-      <h1>Clima</h1>
-    </div>
+    <>
+      <Card />
+      <GlobalStyle />
+    </>
   );
 }
