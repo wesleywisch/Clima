@@ -26,7 +26,8 @@ export function Card() {
         fetch(`${process.env.REACT_APP_BASE}weather?q=${city}&appid=${process.env.REACT_APP_KEY}&units=${process.env.REACT_APP_UNITS}`)
             .then(response => {
                 if (!response.ok) {
-                    throw new Error(`http error: status ${response.status}`)
+                    alert('Cidade não encontrada!')
+                    return;
                 }
                 return response.json();
             })
@@ -43,9 +44,6 @@ export function Card() {
 
     return (
         <Container>
-            <header>
-                <h2>Tempo e Temperatura</h2>
-            </header>
 
             <main>
                 {cityName ? (
@@ -73,19 +71,16 @@ export function Card() {
                 </div>
 
                 {cityName ? (
-                    <div className="container-temp">{cityName?.main.temp} <span>°C</span> </div>
+                    <div className="container-temp">{cityName?.main.temp} <span>°</span> </div>
                 ) : (
                     <div></div>
                 )}
 
                 {cityName ? (
-                    <div className="weather">{cityName?.weather[0].description}</div>
-                ) : (
-                    <div></div>
-                )}
-
-                {cityName ? (
-                    <div className="hi-low">{cityName?.main.temp_min}°c / {cityName?.main.temp_max}°c</div>
+                    <div className="hi-low">
+                        <div className="foto"><img src="/assests/tempFrio.png" alt="Frio" /> Min: <strong>{cityName?.main.temp_min}°c</strong></div>
+                        <div className="foto"><img src="/assests/tempQuente.png" alt="Frio" /> Max: <strong>{cityName?.main.temp_max}°c</strong></div>
+                    </div>
                 ) : (
                     <div></div>
                 )}

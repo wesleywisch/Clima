@@ -1,54 +1,61 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-    max-width: 576px;
+    background-color: #fff;
+    max-width: 376px;
     width: 100%;
-    margin: 120px auto;
-
-    header{
-        background: #aaa;
-
-        h2{
-            text-align: center;
-            color: #fafafa
-        }
-    }
+    border-radius: 1.2rem;
+    margin: 10rem auto;
 
     main{
-        background: #fafafa;
         text-align: center;
+        padding: 2rem;
+        border-radius: 1.2rem 1.2rem 0 0;
+        background: linear-gradient(180deg, #1553A8 ,#2562B3);
 
         .city{
+            color: #fafafa;
             font-size: 2rem;
         }
 
         .date{
-            font-size: 1rem;
+            color: #fafafa;
+            margin-top: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .container-img img{
+            width: 45%;
         }
 
         .container-temp{
-            margin-top: 10px;
-            margin-bottom: 10px;
+            color: #fafafa;
+            margin: 1rem 0;
             display: flex;
             justify-content: center;
 
             font-size: 6.2rem;
             font-weight: 900;
-            text-shadow: 3px 6px rgba(0, 0, 0, 0.2);
-        }
-
-        .weather{
-            font-size: 2rem;
         }
 
         .hi-low{
-            font-size: 1.4rem;
+            color: #fafafa;
+            display: flex;
+            justify-content: space-around;
+            font-size: 2rem;
+
+            img{
+                width: 30px;
+            }
+
+            strong{
+                display: block;
+            }
         }
     }
 
     footer{
-        background: #aaa;
-        padding: 12px;
+        padding: 1.5rem;
 
         div{
             display: flex;
@@ -62,6 +69,7 @@ export const Container = styled.div`
             border-radius: 0.8rem 0 0 0.8rem;
             padding-left: 2%;
             font-size: 1.3rem;
+            background: #d5d5d5;
         }
 
         button{
@@ -69,9 +77,34 @@ export const Container = styled.div`
             height: 32px;
             border: 0;
             border-radius: 0 0.8rem 0.8rem 0;
+            background: #f1f1f1;
 
             img{
                 width: 22px;
+            }
+        }
+    }
+
+    @media (max-width: 450px){
+        max-width: 276px;
+
+        main {
+            .city{
+                font-size: 1.5rem;
+            }
+
+            .hi-low{
+                display: block;
+
+                .foto{
+                    margin: 1rem 0;
+                }
+            }
+        }
+
+        footer{
+            input{
+                font-size: 1rem;
             }
         }
     }
