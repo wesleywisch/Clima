@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const Container = styled.div`
     max-width: 576px;
     width: 100%;
+    margin: 120px auto;
 
     header{
         background: #aaa;
@@ -16,13 +17,40 @@ export const Container = styled.div`
     main{
         background: #fafafa;
         text-align: center;
+
+        .city{
+            font-size: 2rem;
+        }
+
+        .date{
+            font-size: 1rem;
+        }
+
+        .container-temp{
+            margin-top: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: center;
+
+            font-size: 6.2rem;
+            font-weight: 900;
+            text-shadow: 3px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .weather{
+            font-size: 2rem;
+        }
+
+        .hi-low{
+            font-size: 1.4rem;
+        }
     }
 
     footer{
         background: #aaa;
         padding: 12px;
 
-        form{
+        div{
             display: flex;
         }
 

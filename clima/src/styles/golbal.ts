@@ -26,7 +26,7 @@ export const GlobalStyle = createGlobalStyle`
     }
 
     body, input, textarea, button{
-        font-family: Arial, sans-serif;
+        font-family: 'Roboto', sans-serif;
         font-weight: 400;
     }
 

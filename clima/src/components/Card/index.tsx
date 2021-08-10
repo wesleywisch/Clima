@@ -1,49 +1,109 @@
-import { FormEvent, useState } from 'react';
-
-import nuvemInterrogação from '../../assests/nuvemInterrogação.png';
-import lupa from '../../assests/lupa.png';
-
+import { useState } from 'react';
 import { Container } from "./style";
 
-export function Card() {
-    const [content, setContent] = useState('');
+type ApiProps = {
+    name: string;
+    main: {
+        humidity: number;
+        temp: number;
+        temp_max: number;
+        temp_min: number;
+    }
+    sys: {
+        country: string;
+    }
+    weather: {
+        description: string;
+        icon: string;
+    }[]
+}
 
-    function handleCreateNewRequest(event: FormEvent) {
-        event.preventDefault();
+export function Card() {
+    const [city, setCity] = useState('');
+    const [cityName, setCityName] = useState<ApiProps>();
+
+    function searchResults() {
+        fetch(`${process.env.REACT_APP_BASE}weather?q=${city}&appid=${process.env.REACT_APP_KEY}&units=${process.env.REACT_APP_UNITS}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`http error: status ${response.status}`)
+                }
+                return response.json();
+            })
+            .catch(error => {
+                alert(error.message)
+            })
+            .then(data => {
+                console.log(data);
+                setCityName(data);
+            })
+        setCity('');
     }
 
 
     return (
         <Container>
             <header>
-                <h2>TEMPO E TEMPERATURA</h2>
+                <h2>Tempo e Temperatura</h2>
             </header>
 
             <main>
-                <div className="City">Cidade Rio de janeiro, BR</div>
-                <div className="date">Segunda, 19 Julho 2021</div>
+                {cityName ? (
+                    <div className="city">{cityName.name}, {cityName.sys.country}</div>
+                ) : (
+                    <div></div>
+                )}
+
+                <div className="date">{ cityName ? (
+                    new Date().toLocaleDateString("pt-BR", {
+                        day: "2-digit",
+                        month: "long",
+                        year: "numeric",
+                    })
+                ) : (
+                    <div></div>
+                )}</div>
+
                 <div className="container-img">
-                    <img src={nuvemInterrogação} alt="Nuvem com ponto de interrogação" />
+                    {cityName ? (
+                        <img src={`/assests/${cityName?.weather[0].icon}.png`} alt="Qualquer coisa" />
+                    ) : (
+                        <img src="/assests/nuvemInterrogação.png" alt="Nuvem com ponto de interrogação" />
+                    )}
                 </div>
-                <div className="container-temp">
-                    <div>22</div>
-                    <span>C</span>
-                </div>
-                <div className="weather">Nublado</div>
-                <div className="hi-low">22c / 23c</div>
+
+                {cityName ? (
+                    <div className="container-temp">{cityName?.main.temp} <span>°C</span> </div>
+                ) : (
+                    <div></div>
+                )}
+
+                {cityName ? (
+                    <div className="weather">{cityName?.weather[0].description}</div>
+                ) : (
+                    <div></div>
+                )}
+
+                {cityName ? (
+                    <div className="hi-low">{cityName?.main.temp_min}°c / {cityName?.main.temp_max}°c</div>
+                ) : (
+                    <div></div>
+                )}
             </main>
 
             <footer>
-                <form onSubmit={handleCreateNewRequest}>
-                    <input type="text"
-                        value={content}
-                        onChange={event => setContent(event.target.value)}
+                <div>
+                    <input
+                        placeholder="Digite o nome da cidade!"
+                        type="text"
+                        value={city}
+                        onChange={event => setCity(event.target.value)}
                     />
 
-                    <button type="submit">
-                        <img src={lupa} alt="Pesquisar" />
+                    <button type="submit" onClick={searchResults}>
+                        <img src="/assests/lupa.png" alt="Pesquisar" />
                     </button>
-                </form>
+                </div>
             </footer>
         </Container>
     )
