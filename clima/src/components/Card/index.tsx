@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Spinner } from '../Spinner';
 import { Container } from "./style";
 
 type ApiProps = {
@@ -21,11 +22,15 @@ type ApiProps = {
 export function Card() {
     const [city, setCity] = useState('');
     const [cityName, setCityName] = useState<ApiProps>();
+    const [isLoading, setIsLoading] = useState(false);
 
-    function searchResults() {
-        fetch(`${process.env.REACT_APP_BASE}weather?q=${city}&appid=${process.env.REACT_APP_KEY}&units=${process.env.REACT_APP_UNITS}`)
+    async function searchResults() {
+        setIsLoading(true);
+
+        await fetch(`${process.env.REACT_APP_BASE}weather?q=${city}&appid=${process.env.REACT_APP_KEY}&units=${process.env.REACT_APP_UNITS}`)
             .then(response => {
                 if (!response.ok) {
+                    setCityName(undefined);
                     alert('Cidade não encontrada!')
                     return;
                 }
@@ -35,9 +40,9 @@ export function Card() {
                 alert(error.message)
             })
             .then(data => {
-                console.log(data);
                 setCityName(data);
             })
+        setIsLoading(false);
         setCity('');
     }
 
@@ -52,7 +57,7 @@ export function Card() {
                     <div></div>
                 )}
 
-                <div className="date">{ cityName ? (
+                <div className="date">{cityName ? (
                     new Date().toLocaleDateString("pt-BR", {
                         day: "2-digit",
                         month: "long",
@@ -67,6 +72,12 @@ export function Card() {
                         <img src={`/assests/${cityName?.weather[0].icon}.png`} alt="Qualquer coisa" />
                     ) : (
                         <img src="/assests/nuvemInterrogação.png" alt="Nuvem com ponto de interrogação" />
+                    )}
+
+                    {isLoading ? (
+                        <Spinner />
+                    ) : (
+                        <></>
                     )}
                 </div>
 
